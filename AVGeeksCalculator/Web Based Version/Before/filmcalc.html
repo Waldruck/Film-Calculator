@@ -1,0 +1,264 @@
+
+<!-- saved from url=(0033)https://avgeeks.com/filmcalc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="stylesheet" type="text/css" href="./filmcalc_files/master.css">
+
+<script language="JavaScript">
+<!--Javascript: Filmlängenrechner-->
+<!--(c) 1999 by Uli Schmidt (BVK)-->
+<!--http://www.cinematography.de-->
+<!--when copying that script please leave this notice in-->
+
+<!--//der kommacheck ersetzt kommas durch punkte...
+function kommacheck(Istring) { 
+retval=""
+var tempstring
+for (var i=0;i<=Istring.length;i++) { 
+tempstring =Istring.substring(i,i+1)
+if(tempstring!=",") retval=retval+tempstring;
+if(tempstring==",") retval=retval+".";
+}
+return retval 
+}
+//-->
+
+
+<!--Berechung der Filmlänge-->
+<!--
+function showlen(form) { 
+
+fps=parseInt(form.speed.value,10);
+hh=parseInt(form.hh.value,10);
+mm=parseInt(form.mm.value,10);
+ss=parseInt(form.ss.value,10);
+step=parseFloat(form.format.options[form.format.selectedIndex].value)
+
+sec = (hh*3600)+(mm*60)+ss
+
+frm = sec*fps
+ftm = sec*fps*step/1000
+ftf = ftm*(1/0.30481)
+
+ftm = Math.round(ftm*100) / 100
+ftf = Math.round(ftf*10) / 10
+
+form.footage_m.value=ftm
+form.footage_f.value=ftf
+form.frames.value=frm
+form.price10.value=ftf*.10
+form.price12.value=ftf*.12
+form.price15.value=ftf*.15
+form.price20.value=ftf*.20
+form.price30.value=ftf*.30
+form.price40.value=ftf*.40
+form.price50.value=ftf*.50
+form.generic8.value=(hh+(mm/60)+(ss/3600))*170
+}
+//-->
+
+<!--Berechnung der Filmdauer-->
+<!--
+function showtime(form) { 
+
+kommacheck(form.footage_m.value)
+form.footage_m.value=retval 
+kommacheck(form.footage_f.value)
+form.footage_f.value=retval 
+
+fps = parseInt(form.speed.value,10);
+step = parseFloat(form.format.options[form.format.selectedIndex].value);
+ftm = (form.footage_m.value);
+ftf = (form.footage_f.value);
+
+frm = Math.round(ftm*1000/step)
+sec = ftm*1000/step/fps
+
+hh = Math.floor(sec/3600)
+secrest = sec-(3600*hh)
+mm = Math.floor(secrest/60)
+ss = secrest - (60*mm)
+ss = Math.round(ss)
+
+if (hh <=9) {hh='0'+hh};
+if (mm <=9) {mm='0'+mm};
+if (ss <=9) {ss='0'+ss};
+
+form.frames.value=frm
+form.hh.value=hh
+form.mm.value=mm
+form.ss.value=ss
+form.price10.value=ftf*.10
+form.price12.value=ftf*.12
+form.price15.value=ftf*.15
+form.price20.value=ftf*.20
+form.price30.value=ftf*.30
+form.price40.value=ftf*.40
+form.price50.value=ftf*.50
+form.generic8.value=(hh+(mm/60)+(ss/3600))*170
+}
+//-->
+
+
+
+<!--Berechnung Fuss aus Meter-->
+<!--
+function showfoot(form) {
+kommacheck(form.footage_m.value)
+form.footage_m.value=retval  
+ftm = form.footage_m.value;
+ftf = ftm*(1/0.30481)
+ftm = Math.round(ftm*100) / 100
+ftf = Math.round(ftf*10) / 10
+form.footage_m.value = ftm
+form.footage_f.value = ftf
+
+//Bilderzahl errechen:
+step = parseFloat(form.format.options[form.format.selectedIndex].value)
+ftm = form.footage_m.value;
+frm = Math.round(ftm*1000/step)
+form.frames.value = frm;
+}
+//-->
+
+<!--Berechnung Fuss aus Meter-->
+<!--
+function showmeter(form) { 
+kommacheck(form.footage_f.value)
+form.footage_f.value=retval 
+ftf = form.footage_f.value;
+ftm = ftf*0.30481
+ftm = Math.round(ftm*100) / 100
+ftf = Math.round(ftf*10) / 10
+form.footage_m.value = ftm
+form.footage_f.value = ftf
+
+//Bilderzahl errechen:
+step = parseFloat(form.format.options[form.format.selectedIndex].value)
+ftm = form.footage_m.value;
+frm = Math.round(ftm*1000/step)
+form.frames.value = frm;
+}
+//-->
+
+<!--Berechnung Fuss aus Meter-->
+<!--
+function showmeterfuss(form) { 
+frm = form.frames.value
+step = parseFloat(form.format.options[form.format.selectedIndex].value)
+ftm = frm*step/1000
+ftf = ftm*(1/0.30481)
+ftm =  Math.round(ftm*100) / 100
+ftf = Math.round(ftf*10) / 10
+form.footage_m.value = ftm
+form.footage_f.value = ftf
+}
+//-->
+
+
+</script>
+</head>
+
+<!--Film Length Calculator (JS)-->
+
+<body bgcolor="white">
+		<center>
+			<table width="900" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					<td class="class_font_30pt_bold_kursiv">
+						<div align="center">
+							Film Length - Calculator</div>
+					</td>
+				</tr>
+			</tbody></table>
+			<span class="class_font_standard"><br>
+			</span>
+			<table border="0" cellspacing="0" cellpadding="3" width="600">
+<tbody><tr>
+					<td class="class_font_12pt" bgcolor="#C0C0C0"><b>This calculator converts film-footage in running time or calculates the running time out of the footage length:</b></td>
+					<td rowspan="2" colspan="4"></td>
+				</tr>
+<tr>
+					<td class="class_font_standard" align="center" bgcolor="#C0C0C0">
+<form name="Filmlängenrechner">
+							<span class="class_font_standard">
+								<!--  ... Rechnertabellestart ...-->
+							</span>
+							<table border="0" cellspacing="1" cellpadding="2" width="590">
+<tbody><tr><td class="class_font_10pt" colspan="5" align="left"><font size="-2">required:</font></td></tr>
+<tr>
+<td class="class_font_12pt" width="150"><b>frames per second:</b></td>
+<td width="120"><input type="text" name="speed" size="7" value="24"></td>
+<td width="50">&nbsp;</td>
+<td class="class_font_12pt" width="150"><b>format:</b></td>
+<td width="120">
+	<select name="format">
+	<option value="3.810">Regular 8
+	</option><option value="4.234">Super 8
+	</option><option value="7.54">9.5 approx.
+	</option><option selected="" value="7.605">16 mm
+	</option><option value="19.000">35 mm
+	</option><option value="14.250">35 / 3Perf
+	</option><option value="23.750">65 mm
+	</option><option value="71.250">IMAX
+	</option></select>
+</td>
+</tr>
+
+<tr><td class="class_font_standard" colspan="5" align="center"><hr align="Center" size="2"></td></tr>
+
+
+<tr><td class="class_font_10pt" colspan="2" align="left" valign="top" width="270"><font size="-2">to calculate the running time, please enter the footage in meter or feet:</font></td>
+
+<td class="class_font_10pt"></td>
+
+<td class="class_font_10pt" colspan="2" align="left" valign="top" width="270"><font size="-2">to calculate the footage, please enter the running time (hh:mm:ss)</font></td></tr>
+				
+
+<tr>
+	<td class="class_font_12pt" width="150"><b>footage (meter):</b></td>
+	<td class="class_font_standard" width="120"><input type="text" name="footage_m" onblur="showfoot(this.form)" size="10"></td>
+	<td width="50">&nbsp;</td>
+	<td class="class_font_12pt"><b>running time:(hh:mm:ss)</b></td>	
+	<td class="class_font_12pt"><input type="text" name="hh" value="0" size="2"><b>:</b><input type="text" name="mm" value="0" size="2"><b>:</b><input type="text" name="ss" value="0" size="2"></td>	
+	<td class="class_font_12pt"><b>.10</b><input type="text" name="price10" size="2"><b>.12</b><input type="text" name="price12" size="2"><b>.15</b><input type="text" name="price15" size="2"><b>.20</b><input type="text" name="price20" size="2"><b>.30</b><input type="text" name="price30" size="2"><b>.40</b><input type="text" name="price40" size="2"><b>.50</b><input type="text" name="price50" size="2"><b>.**</b><input type="text" name="generic8" size="2"><b>generic 8 per hour pricing</b></td>
+	</tr>
+
+<tr>
+	<td class="class_font_12pt" width="150"><b>footage (feet):</b></td>
+	<td class="class_font_standard" width="120"><input type="text" name="footage_f" onblur="showmeter(this.form)" size="10"></td>	
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+
+<tr>
+	<td class="class_font_12pt" width="150"><b>number of frames:</b></td>
+	<td class="class_font_standard" width="120"><input type="text" name="frames" onblur="showmeterfuss(this.form)" size="10"></td>	
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+
+
+<tr>
+	<td class="class_font_12pt" colspan="2" align="left"> <font size="+1"><input type="button" value="  Calculate Running Time  " height="30" width="250" onclick="showtime(this.form)"></font></td>
+	<td>&nbsp;</td>
+	
+	<td class="class_font_12pt" colspan="2" align="left">
+						<div align="right">
+							<font size="+1"><input type="button" value="   Calculate Footage   " height="30" width="250" onclick="showlen(this.form)"></font></div>
+					</td>
+</tr>
+
+
+
+
+</tbody></table>
+<iframe src="./filmcalc_files/video_calc.html" width="800" height="800"></iframe>
+		
+	
+
+
+
+
+</form></td></tr></tbody></table></center></body></html>
